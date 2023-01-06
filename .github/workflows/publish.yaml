@@ -1,0 +1,52 @@
+name: Publish
+
+env:
+    php_version: '7.4'
+
+on:
+    release:
+        types:
+            - published
+
+jobs:
+    build_and_publish:
+        runs-on: ubuntu-20.04
+        steps:
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ env.php_version }}
+
+            -   uses: actions/checkout@v2
+
+            -   name: Get Composer Cache Directory
+                id: composer-cache
+                run: |
+                    echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+            -   name: Cache Composer packages
+                uses: actions/cache@v3
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-composer-
+
+            -   name: Install application dependencies
+                run: composer install --prefer-dist --no-dev --no-progress
+
+            -   name: Cleanup
+                run: rm -fr .git .github dev-ops .gitignore Makefile
+
+            -   name: Create binaries
+                working-directory: ../
+                run: |
+                    mkdir -p modules/servers
+                    cp -r ${{ github.workspace }} modules/servers/xovi
+                    zip -r whmcs-xovi-${{ github.ref_name }}.zip modules
+                    mv whmcs-xovi-${{ github.ref_name }}.zip ${{ github.workspace }}/
+
+            -   name: Upload binaries to release
+                uses: svenstaro/upload-release-action@v2
+                with:
+                    file: whmcs-xovi-${{ github.ref_name }}.zip
