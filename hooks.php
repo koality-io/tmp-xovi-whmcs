@@ -5,8 +5,8 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use WHMCS\Database\Capsule;
-use WHMCS\Module\Server\Xovi\Constants;
-use WHMCS\Module\Server\Xovi\CustomFields;
+use WHMCS\Module\Server\XoviNow\Constants;
+use WHMCS\Module\Server\XoviNow\CustomFields;
 
 add_hook('ProductEdit', 1, function (array $vars) {
     $productId = $vars['pid'] ?? null;

@@ -8,17 +8,17 @@ if (!defined('WHMCS')) {
 
 require __DIR__ . '/vendor/autoload.php';
 
-use WHMCS\Module\Server\Xovi\KaApi;
-use WHMCS\Module\Server\Xovi\Logger;
-use WHMCS\Module\Server\Xovi\ServerOptions;
-use WHMCS\Module\Server\Xovi\ServiceProperties;
-use WHMCS\Module\Server\Xovi\PlanCollection;
-use WHMCS\Module\Server\Xovi\Plans\StarterPlan;
-use WHMCS\Module\Server\Xovi\ProductOptions;
-use WHMCS\Module\Server\Xovi\Translator;
-use WHMCS\Module\Server\Xovi\UrlHelper;
+use WHMCS\Module\Server\XoviNow\KaApi;
+use WHMCS\Module\Server\XoviNow\Logger;
+use WHMCS\Module\Server\XoviNow\ServerOptions;
+use WHMCS\Module\Server\XoviNow\ServiceProperties;
+use WHMCS\Module\Server\XoviNow\PlanCollection;
+use WHMCS\Module\Server\XoviNow\Plans\StarterPlan;
+use WHMCS\Module\Server\XoviNow\ProductOptions;
+use WHMCS\Module\Server\XoviNow\Translator;
+use WHMCS\Module\Server\XoviNow\UrlHelper;
 
-function xovi_getKaApiClient(array $params): KaApi
+function xovinow_getKaApiClient(array $params): KaApi
 {
     return new KaApi(
         $params[ServerOptions::SERVER_SCHEME],
@@ -29,17 +29,17 @@ function xovi_getKaApiClient(array $params): KaApi
     );
 }
 
-function xovi_MetaData(): array
+function xovinow_MetaData(): array
 {
     return [
-        'DisplayName' => 'XOVI',
+        'DisplayName' => 'XOVI NOW',
         'APIVersion' => '1.1',
         'RequiresServer' => true,
         'ServiceSingleSignOnLabel' => false,
     ];
 }
 
-function xovi_ConfigOptions(): array
+function xovinow_ConfigOptions(): array
 {
     global $CONFIG;
 
@@ -55,7 +55,7 @@ function xovi_ConfigOptions(): array
 
     return [
         ProductOptions::PLAN_ID => [
-            'FriendlyName' => $translator->translate('xovi_label_plan'),
+            'FriendlyName' => $translator->translate('xovinow_label_plan'),
             'Type' => 'dropdown',
             'Size' => '25',
             'Options' => $planOptions,
@@ -65,11 +65,11 @@ function xovi_ConfigOptions(): array
     ];
 }
 
-function xovi_ClientArea(array $params): string
+function xovinow_ClientArea(array $params): string
 {
     global $CONFIG;
 
-    $kaApi = xovi_getKaApiClient($params);
+    $kaApi = xovinow_getKaApiClient($params);
     $keyId = $params['model']->serviceProperties->get(ServiceProperties::KEY_ID);
     $translator = Translator::getInstance($CONFIG);
 
@@ -79,16 +79,16 @@ function xovi_ClientArea(array $params): string
         $dashboardUrl = UrlHelper::getDashboardUrl();
 
         if ($license->getActivationInfo()->isActivated()) {
-            return '<div class="tab-content"><div class="row"><div class="col-sm-3 text-left">' . $translator->translate('xovi_button_license_activated') . '</div></div></div><br/>';
+            return '<div class="tab-content"><div class="row"><div class="col-sm-3 text-left">' . $translator->translate('xovinow_button_license_activated') . '</div></div></div><br/>';
         }
 
         $html = '';
 
         if (!$license->isTerminated() && !$license->isSuspended()) {
-            $html .= '<div class="tab-content"><a class="btn btn-block btn-info" href="' . $activationUrl . '" target="_blank">' . $translator->translate('xovi_button_activate_license') . '</a></div><br/>';
+            $html .= '<div class="tab-content"><a class="btn btn-block btn-info" href="' . $activationUrl . '" target="_blank">' . $translator->translate('xovinow_button_activate_license') . '</a></div><br/>';
         }
 
-        $html .= '<div class="tab-content"><a class="btn btn-block btn-default" href="' . $dashboardUrl . '" target="_blank">' . $translator->translate('xovi_button_dashboard') . '</a></div><br/>';
+        $html .= '<div class="tab-content"><a class="btn btn-block btn-default" href="' . $dashboardUrl . '" target="_blank">' . $translator->translate('xovinow_button_dashboard') . '</a></div><br/>';
 
         return $html;
     } catch (Throwable $exception) {
@@ -98,12 +98,12 @@ function xovi_ClientArea(array $params): string
     }
 }
 
-function xovi_CreateAccount(array $params): string
+function xovinow_CreateAccount(array $params): string
 {
     try {
         $plans = new PlanCollection();
         $plan = $plans->getPlanById($params[ProductOptions::PLAN_ID]);
-        $kaApi = xovi_getKaApiClient($params);
+        $kaApi = xovinow_getKaApiClient($params);
         $license = $kaApi->createLicense($plan);
 
         $params['model']->serviceProperties->save([
@@ -120,11 +120,11 @@ function xovi_CreateAccount(array $params): string
     }
 }
 
-function xovi_SuspendAccount(array $params): string
+function xovinow_SuspendAccount(array $params): string
 {
     try {
         $keyId = $params['model']->serviceProperties->get(ServiceProperties::KEY_ID);
-        $kaApi = xovi_getKaApiClient($params);
+        $kaApi = xovinow_getKaApiClient($params);
 
         $kaApi->suspendLicense($keyId);
 
@@ -136,11 +136,11 @@ function xovi_SuspendAccount(array $params): string
     }
 }
 
-function xovi_UnsuspendAccount(array $params): string
+function xovinow_UnsuspendAccount(array $params): string
 {
     try {
         $keyId = $params['model']->serviceProperties->get(ServiceProperties::KEY_ID);
-        $kaApi = xovi_getKaApiClient($params);
+        $kaApi = xovinow_getKaApiClient($params);
 
         $kaApi->resumeLicense($keyId);
 
@@ -152,11 +152,11 @@ function xovi_UnsuspendAccount(array $params): string
     }
 }
 
-function xovi_TerminateAccount(array $params): string
+function xovinow_TerminateAccount(array $params): string
 {
     try {
         $keyId = $params['model']->serviceProperties->get(ServiceProperties::KEY_ID);
-        $kaApi = xovi_getKaApiClient($params);
+        $kaApi = xovinow_getKaApiClient($params);
 
         $kaApi->terminateLicense($keyId);
 
@@ -168,13 +168,13 @@ function xovi_TerminateAccount(array $params): string
     }
 }
 
-function xovi_ChangePackage(array $params): string
+function xovinow_ChangePackage(array $params): string
 {
     try {
         $keyId = $params['model']->serviceProperties->get(ServiceProperties::KEY_ID);
         $plans = new PlanCollection();
         $plan = $plans->getPlanById($params[ProductOptions::PLAN_ID]);
-        $kaApi = xovi_getKaApiClient($params);
+        $kaApi = xovinow_getKaApiClient($params);
 
         $kaApi->modifyLicense($keyId, $plan);
 
@@ -186,10 +186,10 @@ function xovi_ChangePackage(array $params): string
     }
 }
 
-function xovi_TestConnection(array $params): array
+function xovinow_TestConnection(array $params): array
 {
     try {
-        $kaApi = xovi_getKaApiClient($params);
+        $kaApi = xovinow_getKaApiClient($params);
 
         $kaApi->testConnection();
 

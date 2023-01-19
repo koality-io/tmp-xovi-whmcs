@@ -2,9 +2,9 @@
 
 // Copyright 2023. Plesk International GmbH. All rights reserved.
 
-namespace WHMCS\Module\Server\Xovi\Plans;
+namespace WHMCS\Module\Server\XoviNow\Plans;
 
-use WHMCS\Module\Server\Xovi\Plan;
+use WHMCS\Module\Server\XoviNow\Plan;
 
 final class AgencyPlan implements Plan
 {

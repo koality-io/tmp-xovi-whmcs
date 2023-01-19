@@ -2,12 +2,12 @@
 
 // Copyright 2023. Plesk International GmbH. All rights reserved.
 
-namespace WHMCS\Module\Server\Xovi;
+namespace WHMCS\Module\Server\XoviNow;
 
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use WHMCS\Module\Server\Xovi\Dto\License;
+use WHMCS\Module\Server\XoviNow\Dto\License;
 
 final class KaApi
 {

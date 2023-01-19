@@ -6,7 +6,7 @@ if (!defined('WHMCS')) {
     die('This file cannot be accessed directly');
 }
 
-$_LANG['xovi_label_plan'] = 'Plan';
-$_LANG['xovi_button_activate_license'] = 'Lizenz aktivieren';
-$_LANG['xovi_button_license_activated'] = 'Lizenz aktiviert';
-$_LANG['xovi_button_dashboard'] = 'XOVI Dashboard';
+$_LANG['xovinow_label_plan'] = 'Plan';
+$_LANG['xovinow_button_activate_license'] = 'Lizenz aktivieren';
+$_LANG['xovinow_button_license_activated'] = 'Lizenz aktiviert';
+$_LANG['xovinow_button_dashboard'] = 'XOVI NOW Dashboard';

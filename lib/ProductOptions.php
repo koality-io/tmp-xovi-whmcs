@@ -1,6 +1,6 @@
 <?php
 
-namespace WHMCS\Module\Server\Xovi;
+namespace WHMCS\Module\Server\XoviNow;
 
 class ProductOptions
 {

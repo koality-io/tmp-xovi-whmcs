@@ -1,12 +1,12 @@
 {
-    "name": "whmcs/xovi",
-    "description": "XOVI Provisioning Module for WHMCS",
+    "name": "whmcs/xovinow",
+    "description": "XOVI NOW Provisioning Module for WHMCS",
     "type": "project",
     "license": "Apache-2.0",
-    "homepage": "https://github.com/plesk/whmcs-xovi",
+    "homepage": "https://github.com/plesk/whmcs-xovinow",
     "autoload": {
         "psr-4": {
-            "WHMCS\\Module\\Server\\Xovi\\": "lib/"
+            "WHMCS\\Module\\Server\\XoviNow\\": "lib/"
         }
     },
     "minimum-stability": "stable",

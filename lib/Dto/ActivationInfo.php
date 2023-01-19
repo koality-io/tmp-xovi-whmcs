@@ -1,6 +1,6 @@
 <?php
 
-namespace WHMCS\Module\Server\Xovi\Dto;
+namespace WHMCS\Module\Server\XoviNow\Dto;
 
 use Exception;
 

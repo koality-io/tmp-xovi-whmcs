@@ -2,12 +2,12 @@
 
 // Copyright 2023. Plesk International GmbH. All rights reserved.
 
-namespace WHMCS\Module\Server\Xovi;
+namespace WHMCS\Module\Server\XoviNow;
 
 use RuntimeException;
-use WHMCS\Module\Server\Xovi\Plans\AgencyPlan;
-use WHMCS\Module\Server\Xovi\Plans\ProfessionalPlan;
-use WHMCS\Module\Server\Xovi\Plans\StarterPlan;
+use WHMCS\Module\Server\XoviNow\Plans\AgencyPlan;
+use WHMCS\Module\Server\XoviNow\Plans\ProfessionalPlan;
+use WHMCS\Module\Server\XoviNow\Plans\StarterPlan;
 
 final class PlanCollection
 {
